@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/insertMenu"
+        android:title="Insert"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_add_black_24dp" />
+
+    <item android:id="@+id/loadMenu"
+        android:title="Load"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_format_list_bulleted_black_24dp" />
+
+    <item android:id="@+id/filterMenu"
+        android:title="Filtro"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_filter_list_black_24dp" />
+
+    <item android:id="@+id/resumeMenu"
+        android:title="Resumo"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_assessment_black_24dp" />
+
+</menu>

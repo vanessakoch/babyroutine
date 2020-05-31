@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">Rotina do Bebê</string>
+    <string name="insert_Event">Selecione o Evento</string>
+    <string-array name="eventsbaby_array">
+        <item>Dormiu</item>
+        <item>Acordou</item>
+        <item>Mamou</item>
+        <item>Trocou</item>
+    </string-array>
+
+
+</resources>
