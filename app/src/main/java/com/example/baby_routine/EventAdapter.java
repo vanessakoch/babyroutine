@@ -1,19 +1,25 @@
 package com.example.baby_routine;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +48,6 @@ public class EventAdapter extends RecyclerView.Adapter {
                         eventList.add(e);
                 }
             });
-
         }
 
         @NonNull
@@ -80,14 +85,14 @@ public class EventAdapter extends RecyclerView.Adapter {
             return eventList.size();
         }
 
-        public void remove(int position){
+        public void remove(final int position) {
             recently_removed_position = position;
             recently_removed_event = eventList.get(position);
 
             AppDatabase.databaseWriteExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    db.eventDao().delete(recently_removed_event.getDate(), recently_removed_event.getHour());
+                    db.eventDao().delete(recently_removed_event.getDate(), recently_removed_event.getHour(), recently_removed_event.getAction());
                 }
             });
 
@@ -95,25 +100,42 @@ public class EventAdapter extends RecyclerView.Adapter {
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, this.getItemCount());
 
-            Snackbar snackbar = Snackbar.make(activity.findViewById(R.id.main_activity), "Item deleted", Snackbar.LENGTH_LONG);
-            snackbar.setAction("Take it back?", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if(recently_removed_event.getAction().equals("Dormiu") || recently_removed_event.getAction().equals("Acordou")) {
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(activity);
+                LayoutInflater inflater = LayoutInflater.from(activity);
+                View v = inflater.inflate(R.layout.dialog_remove, null);
 
-                    AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            db.eventDao().insertEvent(recently_removed_event);
-                        }
-                    });
+                Button btnConfirma = (Button) v.findViewById(R.id.btnConfirma);
+                Button btnCancela = (Button) v.findViewById(R.id.btnCancela);
 
-                    eventList.add(recently_removed_position, recently_removed_event);
-                    notifyItemInserted(recently_removed_position);
-                }
-            });
+                mBuilder.setView(v);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
 
-            snackbar.show();
+                btnConfirma.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(view.getContext(), "Removido com sucesso! ", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
 
+                btnCancela.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                db.eventDao().insertEvent(recently_removed_event);
+                            }
+                        });
+
+                        eventList.add(recently_removed_position, recently_removed_event);
+                        notifyItemInserted(recently_removed_position);
+                        dialog.dismiss();
+                    }
+                });
+            }
         }
 
         public void insert(final Event event){
@@ -133,37 +155,23 @@ public class EventAdapter extends RecyclerView.Adapter {
             event.setDate(full_date);
             event.setHour(hour);
 
-            boolean is_sleeping = false;
-            Event wokeup = null;
-
-            if (eventList.size() > 0) {
-                Event last = eventList.get(eventList.size() - 1);
-
-                if (last.getAction().equals("Dormiu") && !event.getAction().equals("Acordou")) {
-                    wokeup = new Event(R.drawable.bbwokeup, "Acordou", full_date, hour);
-                    is_sleeping = true;
-                }
-            }
-
-            final boolean final_sleeping = is_sleeping;
-            final Event final_wokeup = wokeup;
-
             AppDatabase.databaseWriteExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
 
-                    if(final_sleeping)
-                        db.eventDao().insertEvent(final_wokeup);
+                    if(db.eventDao().findLastEvent() != null) {
+                        if (db.eventDao().findLastEvent().getAction().equals("Dormiu") && !event.getAction().equals("Acordou")) {
+                            Event wokeup = new Event(R.drawable.bbwokeup, "Acordou", full_date, hour);
+                            db.eventDao().insertEvent(wokeup);
+                            eventList.add(wokeup);
+                        }
+                    }
 
                     db.eventDao().insertEvent(event);
-
+                    eventList.add(event);
                 }
             });
 
-            if(is_sleeping)
-                eventList.add(wokeup);
-
-            eventList.add(event);
             notifyItemInserted(getItemCount());
         }
 
@@ -178,19 +186,55 @@ public class EventAdapter extends RecyclerView.Adapter {
         }
 
         public void edit(final Event event, final int position) {
-            eventList.get(position).setHour(event.getHour());
-            System.out.println(event.getId());
-            System.out.println(eventList.get(position).getId());
-            AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println(db.eventDao().getId(event.getDate(),event.getHour()));
 
-                    db.eventDao().update(event.getDate(), event.getHour(), db.eventDao().getId(event.getDate(),event.getHour()));
-                }
-            });
+            if(event.getAction().equals("Acordou") || event.getAction().equals("Dormiu")) {
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(activity);
+                LayoutInflater inflater = LayoutInflater.from(activity);
+                View v = inflater.inflate(R.layout.dialog_remove, null);
 
-            notifyItemChanged(position);
+                Button btnConfirma = (Button) v.findViewById(R.id.btnConfirma);
+                Button btnCancela = (Button) v.findViewById(R.id.btnCancela);
+
+                mBuilder.setView(v);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
+
+                btnConfirma.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                db.eventDao().updateHour(event.getHour(), db.eventDao().getId(event.getDate(), eventList.get(position).getHour(), event.getAction()));
+                                eventList.get(position).setHour(event.getHour());
+                            }
+                        });
+
+                        notifyItemChanged(position);
+                        Toast.makeText(view.getContext(), "Dados atualizados com sucesso! ", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                btnCancela.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+            } else {
+
+                AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        db.eventDao().updateHour(event.getHour(), db.eventDao().getId(event.getDate(), eventList.get(position).getHour(), event.getAction()));
+                        eventList.get(position).setHour(event.getHour());
+                    }
+                });
+
+                notifyItemChanged(position);
+            }
         }
 
         public void deleteAll() {

@@ -34,7 +34,6 @@ public class Event implements Parcelable {
         this.hour = hour;
     }
 
-    @Ignore
     public Event(long id, int image, String action, String date, String hour) {
         this.id = id;
         this.image = image;

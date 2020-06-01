@@ -43,11 +43,11 @@ public interface EventDao {
     @Query("SELECT COUNT(*) FROM event WHERE `action` LIKE :action AND date LIKE :date ")
     int countEvent(String action, String date);
 
-    @Query("UPDATE event SET hour=:hour WHERE id = :id")
+    @Query("UPDATE event SET hour = :hour WHERE id = :id")
     void updateHour(String hour, long id);
 
-    @Query("SELECT id FROM event WHERE date = :date AND hour = :hour")
-    long getId(String date, String hour);
+    @Query("SELECT id FROM event WHERE date LIKE :date AND hour LIKE :hour AND `action` LIKE :action")
+    long getId(String date, String hour, String action);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertEvent(Event event);
@@ -61,11 +61,8 @@ public interface EventDao {
     @Delete
     void deleteEvent(Event event);
 
-    @Query("DELETE FROM event WHERE date LIKE :date AND hour like :hour")
-    void delete(String date, String hour);
-
-    @Query("UPDATE event SET hour = :hour WHERE date LIKE :date AND id like :id")
-    void update(String date, String hour, long id);
+    @Query("DELETE FROM event WHERE date LIKE :date AND hour LIKE :hour AND `action` LIKE :action")
+    void delete(String date, String hour, String action);
 
     @Query("DELETE FROM event")
     void deleteAll();
