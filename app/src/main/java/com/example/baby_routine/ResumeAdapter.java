@@ -39,7 +39,7 @@ public class ResumeAdapter extends RecyclerView.Adapter {
                 for (int i = 0; i < list.size(); i++) {
                     if (!date.equals(list.get(i).getDate())) {
                         date = list.get(i).getDate();
-                        resumeList.add(list.get(i).getDate());
+                        resumeList.add("\n" + list.get(i).getDate());
 
                         resumeList.add("Bebe mamou " + db.eventDao().countEvent("Mamou", list.get(i).getDate()) + " vez (es).");
                         resumeList.add("Bebe foi trocado " + db.eventDao().countEvent("Trocou", list.get(i).getDate()) + " vez (es).");
@@ -48,9 +48,14 @@ public class ResumeAdapter extends RecyclerView.Adapter {
                             sleepingHours = db.eventDao().getHours("Dormiu", date);
                             wakingupHours = db.eventDao().getHours("Acordou", date);
 
+                            if(sleepingHours.size() > wakingupHours.size()) {
+                                wakingupHours.add(db.eventDao().getHoursEvent(list.get(i + 1).getDate()));
+                            }
+
+                            //falta arrumar a soma de horas de um dia pro outro
+
                             for (int j = 0; j < wakingupHours.size(); j++) {
                                 milissegundos += calcularDiferencaHoras(sleepingHours.get(j), wakingupHours.get(j));
-
                             }
 
                             int segundos = (int) (milissegundos / 1000) % 60;
@@ -59,6 +64,7 @@ public class ResumeAdapter extends RecyclerView.Adapter {
 
                             resumeList.add("Bebe dormiu por " + horas + ":" + minutos + ":" + segundos + " horas.");
                             milissegundos = 0;
+
                         }
                     }
                 }

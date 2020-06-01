@@ -1,6 +1,5 @@
 package com.example.baby_routine;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,10 +36,18 @@ public class EventAdapter extends RecyclerView.Adapter {
             this.eventList = new ArrayList<Event>();
             db = AppDatabase.getDatabase(activity);
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date data = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(data);
+            Date actually_date = calendar.getTime();
+
+            final String full_date = dateFormat.format(actually_date);
+
             AppDatabase.databaseWriteExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    List<Event> list = db.eventDao().getAll();
+                    List<Event> list = db.eventDao().getAllforDate(full_date);
                     for(Event e : list)
                         eventList.add(e);
                 }
@@ -56,7 +60,6 @@ public class EventAdapter extends RecyclerView.Adapter {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
             EventViewHolder viewHolder = new EventViewHolder(view);
             return viewHolder;
-
         }
 
         @Override
@@ -234,21 +237,6 @@ public class EventAdapter extends RecyclerView.Adapter {
                 });
 
                 notifyItemChanged(position);
-            }
-        }
-
-        public void deleteAll() {
-            AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    db.eventDao().deleteAll();
-                }
-            });
-
-            while (!eventList.isEmpty()){
-                eventList.remove(0);
-                notifyItemRemoved(0);
-                notifyItemRangeChanged(0, this.getItemCount());
             }
         }
 

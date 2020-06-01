@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
     android:padding="5dp">
 
     <ImageView
@@ -14,7 +16,7 @@
 
     <TextView
         android:layout_width="101dp"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:textColor="#3D5AFE"
@@ -31,20 +33,27 @@
         android:textColor="#000000"
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btnCancela"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF1744"
-        android:text="Cancelar"
-        android:textColor="#FFFFFF" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnConfirma"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00E676"
-        android:text="Confirmar"
-        android:textColor="#fff" />
+        <Button
+            android:id="@+id/btnCancela"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:background="#FF1744"
+            android:text="Cancelar"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnConfirma"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20px"
+            android:background="#00E676"
+            android:text="Confirmar"
+            android:textColor="#fff" />
+    </LinearLayout>
 
 </LinearLayout>

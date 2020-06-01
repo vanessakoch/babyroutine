@@ -22,15 +22,11 @@ public class ResumeEventActivity extends AppCompatActivity {
         setContentView(R.layout.resume_event);
 
         adapter = new ResumeAdapter(this);
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerResumeView);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
     }
-
 
     public void return_main(View view) {
         Bundle bundle = new Bundle();
