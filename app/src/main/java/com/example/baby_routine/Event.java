@@ -3,10 +3,8 @@ package com.example.baby_routine;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "event")
@@ -15,7 +13,6 @@ public class Event implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
-
     @ColumnInfo(name = "image")
     private int image;
     @ColumnInfo(name = "action")

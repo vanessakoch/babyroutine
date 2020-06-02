@@ -2,6 +2,21 @@
 
     <string name="app_name">Rotina do Bebê</string>
     <string name="insert_Event">Selecione o Evento</string>
+    <string name="atencao">Atenção</string>
+    <string name="warning">Essa modificação causará inconsistências nos resumos, deseja prosseguir assim mesmo?</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="editar">EDITAR</string>
+    <string name="hor_rio">Horário</string>
+    <string name="editar_hor_rio">EDITAR HORÁRIO</string>
+    <string name="dormiu">Dormiu</string>
+    <string name="acordou">Acordou</string>
+    <string name="trocou">Trocou</string>
+    <string name="mamou">Mamou</string>
+    <string name="clique_em_um_bot_o_para_filtrar_um_evento">CLIQUE EM UM BOTÃO PARA FILTRAR UM EVENTO</string>
+    <string name="adicionar">ADICIONAR</string>
+    <string name="selecione_um_evento">SELECIONE UM EVENTO</string>
+    <string name="resumo_das_a_es">RESUMO DAS AÇÕES</string>
     <string-array name="eventsbaby_array">
         <item>Dormiu</item>
         <item>Acordou</item>

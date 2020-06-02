@@ -22,9 +22,6 @@ public class FilterAdapter extends RecyclerView.Adapter {
         this.activity = activity;
         this.eventList = new ArrayList<Event>();
         db = AppDatabase.getDatabase(activity);
-
-
-
     }
 
     @NonNull
@@ -77,9 +74,6 @@ public class FilterAdapter extends RecyclerView.Adapter {
 
         notifyItemInserted(getItemCount());
     }
-
-
-
 
     public static class FilterViewHolder extends RecyclerView.ViewHolder{
 

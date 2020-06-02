@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,31 +39,27 @@ public class ResumeAdapter extends RecyclerView.Adapter {
                 for (int i = 0; i < list.size(); i++) {
                     if (!date.equals(list.get(i).getDate())) {
                         date = list.get(i).getDate();
-                        resumeList.add("\n" + list.get(i).getDate());
+                        resumeList.add("\nData: " + list.get(i).getDate());
 
-                        resumeList.add("Bebe mamou " + db.eventDao().countEvent("Mamou", list.get(i).getDate()) + " vez (es).");
-                        resumeList.add("Bebe foi trocado " + db.eventDao().countEvent("Trocou", list.get(i).getDate()) + " vez (es).");
+                        sleepingHours = db.eventDao().getHours("Dormiu", date);
+                        wakingupHours = db.eventDao().getHours("Acordou", date);
 
-                        if (list.size() > i+1 && list.get(i).getAction().equals("Dormiu") && list.get(i + 1).getAction().equals("Acordou")) {
-                            sleepingHours = db.eventDao().getHours("Dormiu", date);
-                            wakingupHours = db.eventDao().getHours("Acordou", date);
-
-
-                            for (int j = 0; j < wakingupHours.size(); j++) {
-                                milissegundos += calcularDiferencaHoras(sleepingHours.get(j), wakingupHours.get(j));
-                            }
-
-                            int segundos = (int) (milissegundos / 1000) % 60;
-                            int minutos = (int) (milissegundos / 60000) % 60;
-                            int horas = (int) milissegundos / 3600000;
-
-
-                            resumeList.add("Bebe dormiu por " + horas + ":" + minutos + ":" + segundos + " horas.");
-                            milissegundos = 0;
-
-                        } else {
-                            return;
+                        if(wakingupHours.size() > sleepingHours.size()){
+                            wakingupHours.remove(0);
                         }
+
+                        for (int j = 0; j < wakingupHours.size(); j++) {
+                            milissegundos += calcularDiferencaHoras(sleepingHours.get(j), wakingupHours.get(j));
+                        }
+
+                        int segundos = (int) (milissegundos / 1000) % 60;
+                        int minutos = (int) (milissegundos / 60000) % 60;
+                        int horas = (int) milissegundos / 3600000;
+
+                        resumeList.add("Bebe mamou " + db.eventDao().countEvent("Mamou", list.get(i).getDate()) + " vez (es)." +
+                                "\nBebe foi trocado " + db.eventDao().countEvent("Trocou", list.get(i).getDate()) + " vez (es)." +
+                                "\nBebe dormiu por " + horas + ":" + minutos + ":" + segundos + " horas.");
+                        milissegundos = 0;
                     }
                 }
             }
@@ -87,6 +82,7 @@ public class ResumeAdapter extends RecyclerView.Adapter {
 
     public double calcularDiferencaHoras(String horaInicial, String horaFinal){
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
         try {
             Date horaIni = sdf.parse(horaInicial);
             Date horaFim = sdf.parse(horaFinal);
@@ -99,7 +95,9 @@ public class ResumeAdapter extends RecyclerView.Adapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         return 0;
+
     }
 
     @Override

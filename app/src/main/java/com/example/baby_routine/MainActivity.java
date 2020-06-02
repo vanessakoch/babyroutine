@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -56,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             Event event = (Event) bundle.getParcelable("event");
             adapter.insert(event);
         }
-
-
     }
 
     @Override

@@ -19,16 +19,16 @@
         android:layout_height="46dp"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:textColor="#3D5AFE"
+        android:textColor="#4a148c"
         android:textSize="25sp"
         android:textStyle="bold"
-        tools:text="Atenção" />
+        tools:text="@string/atencao" />
 
     <TextView
         android:id="@+id/txtinformation"
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:text="Essa modificação causará inconsistências nos resumos, deseja prosseguir assim mesmo?"
+        android:text="@string/warning"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp" />
@@ -43,7 +43,7 @@
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:background="#FF1744"
-            android:text="Cancelar"
+            android:text="@string/cancelar"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20px"
             android:background="#00E676"
-            android:text="Confirmar"
+            android:text="@string/confirmar"
             android:textColor="#fff" />
     </LinearLayout>
 

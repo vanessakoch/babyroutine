@@ -15,7 +15,6 @@ public class ResumeEventActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ResumeAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +33,5 @@ public class ResumeEventActivity extends AppCompatActivity {
         returnIntent.putExtras(bundle);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
-
     }
 }

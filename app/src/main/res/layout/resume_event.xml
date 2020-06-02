@@ -21,14 +21,14 @@
 
     <TextView
         android:id="@+id/txtResume"
-        android:layout_width="348dp"
-        android:layout_height="54dp"
+        android:layout_width="343dp"
+        android:layout_height="29dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="15dp"
-        android:text="Resumo das ações"
+        android:text="@string/resumo_das_a_es"
         android:textAlignment="center"
-        android:textColor="#3F51B5"
+        android:textColor="#4a148c"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="67dp"
+        android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="372dp"
         android:background="#FFFFFF"

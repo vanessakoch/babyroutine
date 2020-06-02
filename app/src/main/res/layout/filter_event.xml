@@ -10,8 +10,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="410dp"
-        android:layout_height="47dp"
+        android:layout_width="362dp"
+        android:layout_height="53dp"
         android:layout_marginTop="5dp"
         android:background="#FFFFFF"
         android:orientation="horizontal"
@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#e040fb"
             android:onClick="filterSleeping"
-            android:background="#3D5AFE"
-            android:text="Dormiu"
+            android:text="@string/dormiu"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -34,9 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#7b1fa2"
             android:onClick="filterWakingup"
-            android:background="#00B0FF"
-            android:text="Acordou"
+            android:text="@string/acordou"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -44,9 +44,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#e040fb"
             android:onClick="filterChanging"
-            android:background="#3D5AFE"
-            android:text="Trocou"
+            android:text="@string/trocou"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -54,9 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#00B0FF"
+            android:background="#7b1fa2"
             android:onClick="filterSuckling"
-            android:text="Mamou"
+            android:text="@string/mamou"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
@@ -71,14 +71,14 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="348dp"
-        android:layout_height="54dp"
+        android:layout_width="362dp"
+        android:layout_height="57dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="15dp"
-        android:text="Clique no botão desejado para filtrar os eventos"
+        android:text="@string/clique_em_um_bot_o_para_filtrar_um_evento"
         android:textAlignment="center"
-        android:textColor="#3F51B5"
+        android:textColor="#4a148c"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,8 +87,8 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="67dp"
-        android:layout_height="56dp"
+        android:layout_width="51dp"
+        android:layout_height="53dp"
         android:layout_marginEnd="372dp"
         android:background="#FFFFFF"
         android:onClick="backing"

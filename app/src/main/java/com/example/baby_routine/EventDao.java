@@ -16,6 +16,7 @@ public interface EventDao {
     @Query("SELECT * FROM event")
     List<Event> getAll();
 
+
     @Query("SELECT * FROM event WHERE id IN (:eventIds)")
     List<Event> loadAllByIds(int[] eventIds);
 
@@ -24,9 +25,6 @@ public interface EventDao {
 
     @Query("SELECT * FROM event ORDER BY id DESC LIMIT 1")
     Event findLastEvent();
-
-    @Query("SELECT * FROM event WHERE `action` LIKE :action LIMIT 1")
-    Event findByAction(String action);
 
     @Query("SELECT * FROM event WHERE `action` LIKE :action ")
     List<Event> getAllByAction(String action);
@@ -39,10 +37,6 @@ public interface EventDao {
 
     @Query("SELECT hour FROM event WHERE `action` LIKE :action AND date LIKE :date ")
     List<String> getHours(String action, String date);
-
-    @Query("SELECT hour FROM event WHERE date LIKE :date ORDER BY id LIMIT 1")
-    String getHoursEvent(String date);
-
 
     @Query("SELECT COUNT(*) FROM event WHERE `action` LIKE :action AND date LIKE :date ")
     int countEvent(String action, String date);
