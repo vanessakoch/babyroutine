@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,11 +49,6 @@ public class ResumeAdapter extends RecyclerView.Adapter {
                             sleepingHours = db.eventDao().getHours("Dormiu", date);
                             wakingupHours = db.eventDao().getHours("Acordou", date);
 
-                            if(sleepingHours.size() > wakingupHours.size()) {
-                                wakingupHours.add(db.eventDao().getHoursEvent(list.get(i + 1).getDate()));
-                            }
-
-                            //falta arrumar a soma de horas de um dia pro outro
 
                             for (int j = 0; j < wakingupHours.size(); j++) {
                                 milissegundos += calcularDiferencaHoras(sleepingHours.get(j), wakingupHours.get(j));
@@ -62,9 +58,12 @@ public class ResumeAdapter extends RecyclerView.Adapter {
                             int minutos = (int) (milissegundos / 60000) % 60;
                             int horas = (int) milissegundos / 3600000;
 
+
                             resumeList.add("Bebe dormiu por " + horas + ":" + minutos + ":" + segundos + " horas.");
                             milissegundos = 0;
 
+                        } else {
+                            return;
                         }
                     }
                 }
@@ -78,7 +77,6 @@ public class ResumeAdapter extends RecyclerView.Adapter {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.resume_card, parent, false);
         ResumeAdapter.ResumeViewHolder viewHolder = new ResumeAdapter.ResumeViewHolder(view);
         return viewHolder;
-
     }
 
     @Override
